@@ -5,7 +5,9 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
+import com.example.termtracker.Entities.Course;
 import com.example.termtracker.Entities.Instructor;
 
 import java.util.List;
@@ -22,4 +24,7 @@ public interface InstructorDAO {
 
     @Query("SELECT * FROM instructors ORDER BY instructorID ASC")
     List<Instructor> getInstructorsFromTable();
+
+    @Update
+    void update(Instructor instructor);
 }

@@ -4,12 +4,9 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
-import androidx.room.DatabaseConfiguration;
-import androidx.room.InvalidationTracker;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 import com.example.termtracker.DAO.AssessmentDAO;
 import com.example.termtracker.DAO.CourseDAO;
@@ -23,7 +20,7 @@ import com.example.termtracker.Entities.Term;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Term.class, Course.class, Assessment.class, Instructor.class}, version = 8, exportSchema = false)
+@Database(entities = {Term.class, Course.class, Assessment.class, Instructor.class}, version = 11, exportSchema = false)
 public abstract class DatabaseBuilder extends RoomDatabase {
     public abstract TermDAO termDao();
     public abstract CourseDAO courseDao();
@@ -58,12 +55,10 @@ public abstract class DatabaseBuilder extends RoomDatabase {
 
 
             dbWriteExecutor.execute(()->{
-
                 termDao.deleteAllTerms();
                 courseDao.deleteAllFromCourseTable();
                 assessmentDao.deleteAllFromAssessment();
                 instructorDao.deleteAllFromInstructorTable();
-
 
                 Term termDbTable = new Term(1,"Term 1", "02/01/2022", "02/28/2022");
                 termDao.insert(termDbTable);

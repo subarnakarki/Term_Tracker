@@ -32,8 +32,8 @@ public class AddTerm extends AppCompatActivity {
     Repository repository;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_term);
+        super.onCreate(savedInstanceState);
         termName = findViewById(R.id.editNameTextView);
         startDateEditText = findViewById(R.id.editStartDateTextView);
         endDateEditText = findViewById(R.id.editEndDateTextView);
@@ -129,9 +129,7 @@ public class AddTerm extends AppCompatActivity {
             int termsSize = allTerms.size();
             if (!allTerms.isEmpty()) {
                 int lastId = allTerms.get(termsSize - 1).getTermId();
-
                 term = new Term(lastId + 1, name, start, end);
-
             } else {
                 term = new Term(1, name, start, end);
             }

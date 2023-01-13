@@ -19,17 +19,16 @@
         app:layout_constraintStart_toEndOf="@id/textView"
         app:layout_constraintTop_toTopOf="@id/textView" />
 
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="127dp"
         android:layout_height="31dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="20dp"
         android:text="Instructor Name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
 
     <EditText
         android:id="@+id/instructorPhone"
@@ -46,8 +45,8 @@
         android:id="@+id/textView2"
         android:layout_width="127dp"
         android:layout_height="31dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="148dp"
+        android:layout_marginStart="168dp"
+        android:layout_marginTop="140dp"
         android:text="Phone Number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -66,8 +65,8 @@
         android:id="@+id/textView3"
         android:layout_width="127dp"
         android:layout_height="31dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="76dp"
         android:text="Email"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -76,8 +75,8 @@
         android:id="@+id/saveInstructorButton"
         android:layout_width="75dp"
         android:layout_height="43dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginStart="348dp"
+        android:layout_marginTop="168dp"
         android:onClick="saveInstructorButtonClicked"
         android:text="Save"
         app:layout_constraintStart_toStartOf="parent"

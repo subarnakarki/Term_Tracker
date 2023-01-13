@@ -1,21 +1,26 @@
 package com.example.termtracker.UI;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.example.termtracker.Database.Repository;
+import com.example.termtracker.Entities.Assessment;
 import com.example.termtracker.Entities.Course;
+import com.example.termtracker.Entities.Instructor;
 import com.example.termtracker.R;
 
 import java.text.ParseException;
@@ -38,6 +43,8 @@ public class AddCourse extends AppCompatActivity {
     int termId;
     int courseId;
     List<Course> courseList;
+    List<Assessment> assessmentList;
+    List<Instructor> instructorList;
     Course selectedCourse;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +58,13 @@ public class AddCourse extends AppCompatActivity {
         courseName = findViewById(R.id.courseNameTitle);
         startDateEditText = findViewById(R.id.courseStartDate);
         endDateEditText = findViewById(R.id.courseEndDate);
+        startDateEditText.setText(sdf.format(new Date()));
+        endDateEditText.setText(sdf.format(new Date()));
         statusEditText = findViewById(R.id.statusEditText);
         notesEditText = findViewById(R.id.notesEditText);
         termId = getIntent().getIntExtra("selectedTermId", -1);
         courseId = getIntent().getIntExtra("courseId", -1);
         courseList = repository.getAllCourses();
-
         fillCourseInfo();
         startDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,16 +123,6 @@ public class AddCourse extends AppCompatActivity {
                 updateLabelStart(endDateEditText);
             }
         };
-
-        Button backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(AddCourse.this,  TermDetails.class );
-                intent.putExtra("selectedTermId", getIntent().getIntExtra("selectedTermId", -1));
-                startActivity(intent);
-            }
-        });
     }
 
     private void updateLabelStart(EditText editText) {
@@ -143,7 +141,7 @@ public class AddCourse extends AppCompatActivity {
         if (note.trim().isEmpty()) {
             note = " ";
         }
-        if (name.trim().isEmpty() || start.trim().isEmpty() || end.trim().isEmpty() || status.trim().isEmpty() || note.trim().isEmpty()) {
+        if (name.trim().isEmpty() || start.trim().isEmpty() || end.trim().isEmpty() || status.trim().isEmpty()) {
 
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Alert");
@@ -160,17 +158,17 @@ public class AddCourse extends AppCompatActivity {
         }
         if (courseId != -1) {
             Course updateCourse = new Course(courseId, name, start, end, status, note, termId);
-            repository.insert(updateCourse);
-
+            repository.update(updateCourse);
         } else {
-
             int newId = courseList.size();
+            Log.i("info", "course size is :" + newId);
+
             for (Course course : courseList) {
                 if (course.getCourseId() >= newId) {
                     newId = course.getCourseId();
                 }
             }
-            Course addCourse = new Course(newId + 1, name, start, end, status, note, termId);
+            Course addCourse = new Course(newId+1, name, start, end, status, note, termId);
             repository.insert(addCourse);
         }
 
@@ -179,7 +177,15 @@ public class AddCourse extends AppCompatActivity {
         startActivity(intent);
 
     }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
 
+        }
+        return super.onOptionsItemSelected(item);
+    }
     public void fillCourseInfo() {
         courseName.setText(getIntent().getStringExtra("courseName"));
         startDateEditText.setText(getIntent().getStringExtra("courseStart"));

@@ -4,9 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,7 +49,6 @@ public class TermDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_details);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         repository = new Repository(getApplication());
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
@@ -167,13 +164,13 @@ public class TermDetails extends AppCompatActivity {
                 }
                 if (coursesInTerm.isEmpty()) {
                     repository.delete(selectedTerm);
+                    Intent intent = new Intent(this, TermList.class);
+                    startActivity(intent);
                 } else {
                     Toast.makeText(TermDetails.this, "Please remove all courses in term before deleting", Toast.LENGTH_LONG).show();
                 }
 
         }
-        Intent intent = new Intent(this, TermList.class);
-        startActivity(intent);
         return super.onOptionsItemSelected(item);
     }
     public void termDetailsSaveButtonClicked(View view) {
@@ -199,11 +196,7 @@ public class TermDetails extends AppCompatActivity {
     public void setRecyclerViewAndAdapter() {
         coursesInTerm = new ArrayList<>();
         for (Course course : repository.getAllCourses()) {
-
             if (course.getCourseTermId() == selectedTermId) {
-                Log.i("Info", String.valueOf("inside!!!"));
-                Log.i("Info", String.valueOf(selectedTermId));
-                Log.i("Info", String.valueOf(course.getCourseTermId()));
                 coursesInTerm.add(course);
             }
         }
